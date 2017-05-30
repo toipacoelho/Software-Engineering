@@ -5,8 +5,8 @@
  */
 package es.kafkaproducerconsumer;
 
-import java.util.Properties;
 import java.util.Arrays;
+import java.util.Properties;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

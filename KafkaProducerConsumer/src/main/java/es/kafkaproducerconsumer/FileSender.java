@@ -22,11 +22,14 @@ public class FileSender {
 
     public static void main(String[] args) throws Exception {
 
-        File f = new File("../VitalJacket_ECG.tsv");
-        List<String> lines = FileUtils.readLines(f, "UTF-8");
+        File ecgFile = new File("../VitalJacket_ECG.tsv");
+        File othersFile = new File("../VitalJacket_others.tsv");
+        List<String> ecgList = FileUtils.readLines(ecgFile, "UTF-8");
+        List<String> othersList = FileUtils.readLines(othersFile, "UTF-8");
 
         //Assign topicName to string variable
-        String topicName = "test";
+        String topic1 = "VitalJacket_ECG";
+        String topic2 = "VitalJacket_others";
 
         // create instance for properties to access producer configs   
         Properties props = new Properties();
@@ -49,11 +52,18 @@ public class FileSender {
 
         Producer<String, String> producer = new KafkaProducer<String, String>(props);
 
-        for (String line : lines) {
-            producer.send(new ProducerRecord<String, String>(topicName, line));            
+        for (String line : ecgList) {
+            producer.send(new ProducerRecord<String, String>(topic1, line));            
             System.out.println(line);
-            TimeUnit.MILLISECONDS.sleep(800);
+            TimeUnit.MILLISECONDS.sleep(250);
         }
+        
+        for (String line : othersList) {
+            producer.send(new ProducerRecord<String, String>(topic2, line));            
+            System.out.println(line);
+            TimeUnit.MILLISECONDS.sleep(250);
+        }
+        
         
         System.out.println("Message sent successfully");
         producer.close();

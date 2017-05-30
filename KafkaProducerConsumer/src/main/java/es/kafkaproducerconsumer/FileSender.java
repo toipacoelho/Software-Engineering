@@ -22,8 +22,8 @@ public class FileSender {
 
     public static void main(String[] args) throws Exception {
 
-        File ecgFile = new File("../VitalJacket_ECG.tsv");
-        File othersFile = new File("../VitalJacket_others.tsv");
+        File ecgFile = new File("../data/VitalJacket_ECG.tsv");
+        File othersFile = new File("../data/VitalJacket_others.tsv");
         List<String> ecgList = FileUtils.readLines(ecgFile, "UTF-8");
         List<String> othersList = FileUtils.readLines(othersFile, "UTF-8");
 

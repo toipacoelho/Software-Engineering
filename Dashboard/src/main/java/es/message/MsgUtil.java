@@ -11,18 +11,8 @@ package es.message;
  */
 public class MsgUtil {
     
-    public Object process(String msg){        
+    public String process(String msg){        
         String[] parts = msg.split(" ");
-        if (parts.length == 1){
-            MsgECG parsed = new MsgECG();
-            parsed.setValue(Double.parseDouble(parts[0]));
-            return parsed;
-        }
-        else if (parts.length == 6){
-            MsgOthers parsed = new MsgOthers();
-            return parsed;
-        }
-        else
-            return null;
+        return parts[parts.length-1];
     }
 }

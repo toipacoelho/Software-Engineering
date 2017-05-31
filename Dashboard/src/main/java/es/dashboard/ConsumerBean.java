@@ -31,35 +31,36 @@ public class ConsumerBean implements Serializable {
     private LinkedList<ConsumerRecord<String, String>> events = null;
     private static final long serialVersionUID = 1L;
     private Observer obs;
-        
+
     public ConsumerBean() {
     }
-    
+
     @PostConstruct
-    private void init(){
+    private void init() {
         obs = new Observer();
         Consumer.getInstance().register(obs);
         events = obs.getList();
     }
-    
-    public List<ConsumerRecord<String, String>> getEvents(){
+
+    public List<ConsumerRecord<String, String>> getEvents() {
         return events;
     }
-    
-    public void updateEvents(){
+
+    public void updateEvents() {
         events = obs.getList();
     }
-    
-    public List<MsgECG> getEventsProcessed(){
-        ArrayList<MsgECG> array = new ArrayList<>();
-        
-        events.forEach(event ->{
+
+    public List<String> getEventsProcessed() {
+        ArrayList<String> array = new ArrayList<>();
+
+        events.forEach(event -> {
+            /*
             MsgUtil util = new MsgUtil();
-            MsgECG message = (MsgECG) util.process(event.value());
-            array.add(message);
+            String message = util.process(event.);
+             */
+            array.add(event.value());
         });
         return array;
     }
-    
-    
+
 }

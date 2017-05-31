@@ -15,10 +15,10 @@
         <h:link outcome="welcomePrimefaces" value="Primefaces welcome page" />
         <h2>New events</h2>
         <h:form id="disEvents">
-            <ui:repeat value="#{consumerBean.events}" var="item">
-                <h1>#{item}</h1>
+            <ui:repeat value="#{consumerBean.getEventsProcessed()}" var="item">
+                <p value="#{consumerBean.getEventsProcessed()}" var="item">#{item}</p>
             </ui:repeat>
-            <p:poll interval="3" listener="#{consumerBean.updateEvents}" update="disEvents" />
+            <p:poll interval="1" listener="#{consumerBean.updateEvents}" update="disEvents" />
         </h:form>
     </h:body>
 </html>

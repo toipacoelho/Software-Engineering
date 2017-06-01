@@ -16,7 +16,7 @@
         <h2>New events</h2>
         <h:form id="disEvents">
             <ui:repeat value="#{consumerBean.getEventsProcessed()}" var="item">
-                <p value="#{consumerBean.getEventsProcessed()}" var="item">#{item}</p>
+                <p>#{item}</p>
             </ui:repeat>
             <p:poll interval="1" listener="#{consumerBean.updateEvents}" update="disEvents" />
         </h:form>

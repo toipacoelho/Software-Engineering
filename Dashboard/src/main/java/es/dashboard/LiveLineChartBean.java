@@ -14,8 +14,8 @@ import javax.faces.context.FacesContext;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.primefaces.model.chart.Axis;
 import org.primefaces.model.chart.AxisType;
-import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartModel;
+import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
 
 /**
@@ -40,12 +40,13 @@ public class LiveLineChartBean implements Serializable {
         events = obs.getList();
         //live chart
         liveLineModel = new LineChartModel();
-        liveLineModel.setTitle("Linear Chart");
-        liveLineModel.setLegendPosition("e");
+        liveLineModel.setTitle("Life Jacket ECG");
+        //liveLineModel.setLegendPosition("e");
         //series list add
         LineChartSeries life_jacket = new LineChartSeries();
         life_jacket.setLabel("Life Jacket");
         liveLineModel.addSeries(life_jacket);
+        life_jacket.setShowMarker(false);
         life_jacket.set(0, 0);
     }
 
@@ -64,7 +65,8 @@ public class LiveLineChartBean implements Serializable {
                             if(value >= 200){
                                 warn();
                             }
-                            series.getData().put(size, (int) value);
+                            //series.getData().put(size, (int) value);
+                            series.set(size, (int) value);
                             size++;
                         }
                     
@@ -73,8 +75,8 @@ public class LiveLineChartBean implements Serializable {
             }
         }
 
-        //xAxis.setMin(size < 50 ? 0 : size - 50);
-        //xAxis.setMax(size);
+        xAxis.setMin(0);
+        xAxis.setMax(size);
         yAxis.setMin(0);
         yAxis.setMax(250);
 

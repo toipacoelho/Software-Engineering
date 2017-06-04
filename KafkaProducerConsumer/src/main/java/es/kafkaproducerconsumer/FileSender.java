@@ -55,14 +55,14 @@ public class FileSender {
         for (String line : ecgList) {
             producer.send(new ProducerRecord<String, String>(topic1, line));            
             System.out.println(line);
-            TimeUnit.MILLISECONDS.sleep(250);
+            TimeUnit.MILLISECONDS.sleep(50);
         }
-        
+        /*
         for (String line : othersList) {
             producer.send(new ProducerRecord<String, String>(topic2, line));            
             System.out.println(line);
             TimeUnit.MILLISECONDS.sleep(250);
-        }
+        }*/ 
         
         
         System.out.println("Message sent successfully");

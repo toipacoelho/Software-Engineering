@@ -29,7 +29,7 @@ public class Consumer extends Thread implements interfaceAdapter{
         Properties props = new Properties();
         props.put("bootstrap.servers", Config.ip);
         props.put("group.id", "ECG");        
-        String id = "ECGClient" + (Math.random()*100);
+        String id = "ECGClient" + (int) Math.ceil(Math.random()*100);
         props.put("client.id", id);
         props.put("key.deserializer", StringDeserializer.class.getName());
         props.put("value.deserializer", StringDeserializer.class.getName());

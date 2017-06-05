@@ -5,7 +5,6 @@
  */
 package es.consumer;
 
-import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import org.apache.kafka.clients.consumer.ConsumerRecord;

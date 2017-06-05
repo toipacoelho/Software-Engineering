@@ -20,10 +20,13 @@ public class Recv {
     public static void main(String[] args) throws Exception {
 
         //Kafka consumer configuration settings
-        String topicName = "test";
+        String topicName = "VitalJacket_ECG";
         Properties props = new Properties();
         props.put("bootstrap.servers", "0.0.0.0:9092");
         props.put("group.id", "test");
+        
+        String id = "ECGClient" + (Math.random()*100);
+        props.put("client.id", id);
         props.put("enable.auto.commit", "true");
         props.put("auto.commit.interval.ms", "1000");
         props.put("session.timeout.ms", "30000");

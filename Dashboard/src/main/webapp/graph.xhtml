@@ -49,10 +49,12 @@
                     <h1>Dashboard</h1>
                     <hr/>
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
-                    <h:form>
-                        <p:poll interval="1" update="line_chart" />
-                        <p:chart id="line_chart" type="line" model="#{liveLineChartBean.liveLineModel}" style="height:300px"/>
-                    </h:form>                    
+                    <f:view contentType="text/html">
+                        <h:form>
+                            <p:poll interval="1" update="line_chart" />
+                            <p:chart id="line_chart" type="line" model="#{liveLineChartBean.liveLineModel}" style="height:300px"/>
+                        </h:form>   
+                    </f:view>
                 </b:column>
             </b:row>
         </b:container> 

@@ -7,6 +7,7 @@ package es.consumer;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 
@@ -16,17 +17,17 @@ import org.apache.kafka.clients.consumer.ConsumerRecords;
  */
 public class Observer implements interfaceObserver<ConsumerRecords<String, String>>{
     
-    private LinkedList<ConsumerRecord<String, String>> last_event = null;  
+    private ConcurrentLinkedDeque<ConsumerRecord<String, String>> last_event = null;  
     
     public Observer(){
-        last_event = new LinkedList<>();
+        last_event = new ConcurrentLinkedDeque<>();
     }
     
     @Override
     public synchronized void update(ConsumerRecords<String, String> o) {
         for (ConsumerRecord<String, String> record : o) {
             if (!last_event.contains(record)) {
-                last_event.addFirst(record);
+                last_event.offerFirst(record);
             }
         }
     }
@@ -51,7 +52,7 @@ public class Observer implements interfaceObserver<ConsumerRecords<String, Strin
         return (ConsumerRecord<String, String>[])last_event.toArray();
     }
     
-    public synchronized LinkedList<ConsumerRecord<String, String>> getList(){
+    public synchronized ConcurrentLinkedDeque<ConsumerRecord<String, String>> getList(){
         return last_event;
     }
     

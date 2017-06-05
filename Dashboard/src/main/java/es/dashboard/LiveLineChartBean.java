@@ -5,8 +5,8 @@ import es.consumer.Observer;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ConcurrentLinkedDeque;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
@@ -28,7 +28,8 @@ import org.primefaces.model.chart.LineChartSeries;
 public class LiveLineChartBean implements Serializable {
 
     private LineChartModel liveLineModel;
-    private LinkedList<ConsumerRecord<String, String>> events = null;
+    //private LinkedList<ConsumerRecord<String, String>> events = null;
+    private ConcurrentLinkedDeque<ConsumerRecord<String, String>> events = null;
     private static final long serialVersionUID = 1L;
     private Observer obs;
 
@@ -83,7 +84,7 @@ public class LiveLineChartBean implements Serializable {
         return liveLineModel;
     }
 
-    public List<ConsumerRecord<String, String>> getEvents() {
+    public ConcurrentLinkedDeque<ConsumerRecord<String, String>> getEvents() {
         return events;
     }
 
@@ -105,7 +106,7 @@ public class LiveLineChartBean implements Serializable {
     }
     
     public void warn() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Watch out for PrimeFaces."));
+        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Watch out."));
     }
 
 }

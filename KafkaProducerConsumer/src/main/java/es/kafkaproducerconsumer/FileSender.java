@@ -34,7 +34,7 @@ public class FileSender {
         // create instance for properties to access producer configs   
         Properties props = new Properties();
         //Assign localhost id
-        props.put("bootstrap.servers", "172.17.0.5:9092");
+        props.put("bootstrap.servers", "0.0.0.0:9092");
         //Set acknowledgements for producer requests.      
         props.put("acks", "all");
         //If the request fails, the producer can automatically retry,

@@ -11,7 +11,7 @@ package es.consumer;
  */
 public class Config {
     //kafka IP
-    final static public String ip = "172.17.0.3:9092";
+    final static public String ip = "172.17.0.5:9092";
     
     //topics to subscrive
     //final static public String[] topics = {"VitalJacket_ECG", "VitalJacket_Others"};

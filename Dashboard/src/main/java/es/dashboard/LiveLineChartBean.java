@@ -17,6 +17,7 @@ import org.primefaces.model.chart.AxisType;
 import org.primefaces.model.chart.LineChartModel;
 import org.primefaces.model.chart.ChartSeries;
 import org.primefaces.model.chart.LineChartSeries;
+import org.apache.log4j.Logger;
 
 /**
  * Live updating line chart.
@@ -27,6 +28,8 @@ import org.primefaces.model.chart.LineChartSeries;
 @SessionScoped
 public class LiveLineChartBean implements Serializable {
 
+    final static Logger logger = Logger.getLogger(LiveLineChartBean.class);
+    
     private LineChartModel liveLineModel;
     //private LinkedList<ConsumerRecord<String, String>> events = null;
     private ConcurrentLinkedDeque<ConsumerRecord<String, String>> events = null;
@@ -52,6 +55,7 @@ public class LiveLineChartBean implements Serializable {
     }
 
     public LineChartModel getLiveLineModel() {
+        logger.info("getLiveLineModel()");
         int size = 0;
 
         Axis xAxis = liveLineModel.getAxis(AxisType.X);
@@ -65,10 +69,8 @@ public class LiveLineChartBean implements Serializable {
                             double value = Double.parseDouble(record.value());
                             series.set(size, (int) value);
                             size++;
-                        }
-                    
+                        }                    
                 }
-
             }
         }
 
@@ -99,17 +101,6 @@ public class LiveLineChartBean implements Serializable {
             array.add(event.value());
         });
         return array;
-    }
-    
-    public void warn() {
-        FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Watch out."));
-    }
-    
-    public void saveMessage() {
-        FacesContext context = FacesContext.getCurrentInstance();
-         
-        context.addMessage(null, new FacesMessage("Successful",  "Your message: ") );
-        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
     }
 
 }

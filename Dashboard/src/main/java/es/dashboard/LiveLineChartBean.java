@@ -62,11 +62,7 @@ public class LiveLineChartBean implements Serializable {
                 for (ConsumerRecord<String, String> record : events) {
                         if (record.value().equals("ECG")) {
                         } else {
-                            double value = Double.parseDouble(record.value());                            
-                            if(value >= 200){
-                                warn();
-                            }
-                            //series.getData().put(size, (int) value);
+                            double value = Double.parseDouble(record.value());
                             series.set(size, (int) value);
                             size++;
                         }
@@ -107,6 +103,13 @@ public class LiveLineChartBean implements Serializable {
     
     public void warn() {
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Warning!", "Watch out."));
+    }
+    
+    public void saveMessage() {
+        FacesContext context = FacesContext.getCurrentInstance();
+         
+        context.addMessage(null, new FacesMessage("Successful",  "Your message: ") );
+        context.addMessage(null, new FacesMessage("Second Message", "Additional Message Detail"));
     }
 
 }

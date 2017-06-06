@@ -10,11 +10,11 @@
 
 
     <h:head>
-        <title>Dashboard Template for BootsFaces</title>
+        <title>Dashboard ECG</title>
 
     </h:head>
     <h:body style="padding-top: 60px">
-        <h:outputScript library="holder" name="holder.js" />
+        <!--<h:outputScript library="holder" name="holder.js" />-->
         <!--script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.5.2/holder.min.js"></script-->
         <b:navBar brand="Engenharia de Software" brandHref="#" inverse="true" fixed="top" fluid="true">
 
@@ -25,29 +25,16 @@
         <b:container fluid="true">
             <b:row>
                 <b:column col-sm="3" col-md="2" styleClass="sidebar">
-
                     <b:listLinks>
                         <b:navLink header="Dasboard Links" />
                         <b:navLink href="#" value="Overview" active="true"/>
                     </b:listLinks>
-                    <!--
-                    <b:listLinks>
-                        <b:navLink value="Nav item" />
-                        <b:navLink value="Nav item again" />
-                        <b:navLink value="One more nav" />
-                        <b:navLink value="Another nav item" />
-                        <b:navLink value="More navigation" />
-                    </b:listLinks>
-                    <b:listLinks>
-                        <b:navLink value="Nav item again" />
-                        <b:navLink value="One more nav" />
-                        <b:navLink value="Another nav item" />
-                    </b:listLinks>
-                    -->
                 </b:column>
                 <b:column col-sm="9" offset-sm="3" col-md="10" offset="2" styleClass="main">
                     <h1>Dashboard</h1>
                     <hr/>
+                    
+                    <p:growl id="growl" showDetail="true" sticky="true" />
                     <p:messages id="messages" showDetail="true" autoUpdate="true" closable="true" />
                     <f:view contentType="text/html">
                         <h:form>

@@ -5,6 +5,7 @@ import es.consumer.Observer;
 import javax.annotation.PostConstruct;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import javax.faces.application.FacesMessage;
@@ -29,12 +30,12 @@ import org.apache.log4j.Logger;
 public class LiveLineChartBean implements Serializable {
 
     final static Logger logger = Logger.getLogger(LiveLineChartBean.class);
-    
+
     private LineChartModel liveLineModel;
     //private LinkedList<ConsumerRecord<String, String>> events = null;
     private ConcurrentLinkedDeque<ConsumerRecord<String, String>> events = null;
     private int max = 0;
-    private boolean alert =false;
+    private boolean alert = false;
     private static final long serialVersionUID = 1L;
     private Observer obs;
 
@@ -53,24 +54,16 @@ public class LiveLineChartBean implements Serializable {
         life_jacket.setLabel("Life Jacket");
         liveLineModel.addSeries(life_jacket);
         life_jacket.setShowMarker(false);
-        life_jacket.set(0, 0);       
+        life_jacket.set(0, 0);
         logger.debug("init chart");
         //logger.info(events.getLast().toString());
     }
 
     public LineChartModel getLiveLineModel() {
         logger.debug("getLiveLineModel()");
-        if (!events.isEmpty()) {
-            if (events.getLast().value().equals("ECG")) {
-            } else {
-                logger.info("value:" + events.getLast().value() + " offset: " + events.getLast().offset());
-                if (Double.parseDouble(events.getLast().value()) > 200) {
-                    setAlert(true);
-                } else {
-                    setAlert(false);
-                }
-            }
-        }
+
+        setAlert(testAlert());
+
         logger.info("trigger: " + isAlert());
 
         int size = 0;
@@ -79,14 +72,14 @@ public class LiveLineChartBean implements Serializable {
         Axis yAxis = liveLineModel.getAxis(AxisType.Y);
 
         for (ChartSeries series : liveLineModel.getSeries()) {
-            if (series.getLabel().equals("Life Jacket")) {  
+            if (series.getLabel().equals("Life Jacket")) {
                 for (ConsumerRecord<String, String> record : events) {
-                        if (record.value().equals("ECG")) {
-                        } else {
-                            double value = Double.parseDouble(record.value());
-                            series.set(size, (int) value);
-                            size++;
-                        }                    
+                    if (record.value().equals("ECG")) {
+                    } else {
+                        double value = Double.parseDouble(record.value());
+                        series.set(size, (int) value);
+                        size++;
+                    }
                 }
             }
         }
@@ -118,15 +111,43 @@ public class LiveLineChartBean implements Serializable {
             array.add(event.value());
         });
         return array;
-    }  
-    
+    }
+
     public boolean isAlert() {
         return alert;
-    }   
-    
+    }
 
     public void setAlert(boolean alert) {
         this.alert = alert;
+    }
+
+    private boolean testAlert() {
+        int i = 1;
+        boolean result = false;
+        
+        if (!events.isEmpty() && events.size()>20) {
+            for (Iterator<ConsumerRecord<String, String>> itr = events.iterator(); itr.hasNext();) {
+                
+                logger.debug("value:" + itr.next().value() + " offset: " + itr.next().offset());
+                
+                if (i < 20) {
+                    i++;
+                } else {
+                    i = 0;
+                    break;
+                }
+                
+                
+                if (events.peek().value().equals("ECG")) {
+                } else {
+                    if (Double.parseDouble(itr.next().value()) > 200) {
+                        return true;
+                    }
+                }
+            }
+
+        }
+        return result;
     }
 
 }

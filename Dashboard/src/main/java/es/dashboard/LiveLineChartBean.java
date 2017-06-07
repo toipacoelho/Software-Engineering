@@ -33,6 +33,8 @@ public class LiveLineChartBean implements Serializable {
     private LineChartModel liveLineModel;
     //private LinkedList<ConsumerRecord<String, String>> events = null;
     private ConcurrentLinkedDeque<ConsumerRecord<String, String>> events = null;
+    private int max = 0;
+    private boolean alert =false;
     private static final long serialVersionUID = 1L;
     private Observer obs;
 
@@ -51,18 +53,33 @@ public class LiveLineChartBean implements Serializable {
         life_jacket.setLabel("Life Jacket");
         liveLineModel.addSeries(life_jacket);
         life_jacket.setShowMarker(false);
-        life_jacket.set(0, 0);
+        life_jacket.set(0, 0);       
+        logger.debug("init chart");
+        //logger.info(events.getLast().toString());
     }
 
     public LineChartModel getLiveLineModel() {
-        logger.info("getLiveLineModel()");
+        logger.debug("getLiveLineModel()");
+        if (!events.isEmpty()) {
+            if (events.getLast().value().equals("ECG")) {
+            } else {
+                logger.info("value:" + events.getLast().value() + " offset: " + events.getLast().offset());
+                if (Double.parseDouble(events.getLast().value()) > 200) {
+                    setAlert(true);
+                } else {
+                    setAlert(false);
+                }
+            }
+        }
+        logger.info("trigger: " + isAlert());
+
         int size = 0;
 
         Axis xAxis = liveLineModel.getAxis(AxisType.X);
         Axis yAxis = liveLineModel.getAxis(AxisType.Y);
 
         for (ChartSeries series : liveLineModel.getSeries()) {
-            if (series.getLabel().equals("Life Jacket")) {
+            if (series.getLabel().equals("Life Jacket")) {  
                 for (ConsumerRecord<String, String> record : events) {
                         if (record.value().equals("ECG")) {
                         } else {
@@ -101,6 +118,15 @@ public class LiveLineChartBean implements Serializable {
             array.add(event.value());
         });
         return array;
+    }  
+    
+    public boolean isAlert() {
+        return alert;
+    }   
+    
+
+    public void setAlert(boolean alert) {
+        this.alert = alert;
     }
 
 }

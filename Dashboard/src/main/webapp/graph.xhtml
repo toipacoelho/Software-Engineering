@@ -11,7 +11,6 @@
 
     <h:head>
         <title>Dashboard ECG</title>
-
     </h:head>
     <h:body style="padding-top: 60px">
         <!--<h:outputScript library="holder" name="holder.js" />-->
@@ -42,6 +41,11 @@
                 </b:column>
             </b:row>
         </b:container> 
+
+        <h:outputScript rendered="#{liveLineChartBean.isAlert()}">
+            alert("The signal just went past 200!!");
+        </h:outputScript>
+       
         <style type="text/css">
             .sub-header {
                 border-bottom: 1px solid #eee;

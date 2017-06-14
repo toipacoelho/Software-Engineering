@@ -36,13 +36,53 @@
 						<header class="major">
 							<h2>Developer</h2>
 						</header>
-
-						<!-- Content -->
+                        <!-- Content -->
 							<section id="content">
+                                <h3>Repository</h3>
+								<pre><code>git clone https://github.com/toipacoelho/Software-Engineering.git</code></pre>
+                                <h3>Implementation Architecture</h3>
+                                <p>
+                                    We opted to used kafka as broker because of it's ability to preserve temporal reference.
+                                <br>
+                                    The auditing system implements an ELK stack (ElasticSearch + LogStash + Kibana). The connection between the elk system and logs it's made using filebeats, there's the need to instantiate filebeat on every container producing logs.
+                                </p>
+                                <h3>System Events</h3>
+                                <p>Every sensor sends an unprocessed string topic to the enterprise bus through it's gateway.The data Collector will consume the topic, so the client can see it's vital signs in the user interface.
+                                    <br>
+                                This works based on a thread subscrives the topic, then an observer listen to the events ocurring in the thread and make them available to the bean that will render the user interface.</p>
+                                <h3>Deployment Architecture</h3>
+                                <p>The system is divided by Docker Containers.</p>
+                                    <ul>Broker - Apache Kafka
+                                        <ul>image: wurstmeister/kafka
+                                        <br>ports: 9092, 2181
+                                        </ul>
+                                    </ul>
+                                <ul>Server - Jboss Wildlfy
+                                    <ul>image: jboss/wildlfy
+                                        <br>ports: 8080
+                                    </ul>
+                                </ul>
+                                <ul>Auditing - ElasticSearch, Logstash and Kibana
+                                    <ul>image: sebp/elk
+                                        <br>ports: 5044, 5601, 9200, 9300 
+                                    </ul>
+                                </ul>
+                                <ul>Management - Portainer
+                                    <ul>image: portainer/portainer
+                                        <br>ports: 9000
+                                    </ul>
+                                </ul>
+                                <p>All ports refer to exposed container ports, not to the actual mapping, that can be arranged differently on your deployment.</p>
+                                
+                                <h3>Deployment Strategy</h3>
+                                <p>
+                                    Using maven, it builds the package Dashboard in the source directory and runs the tests after the building. If the package is approved by all tests, than is produced an .war file that is archived and copied to the directory mounted by the Web Server container too, the /war directory.
+                                <br>
+                                    You should edit wildfly-maven-plugin plugin in the pom.xml file to be in agreement with your server address and credentials. For more info about the preocess check <a href="https://docs.jboss.org/wildfly/plugins/maven/latest/examples/deployment-example.html">this link</a>
+                                </p>
 							</section>
-
 					</div>
-				</div>
+				</diV>
 
 			<!-- Footer -->
 				 <footer id="footer">
